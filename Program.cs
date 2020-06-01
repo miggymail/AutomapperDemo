@@ -10,15 +10,15 @@ namespace AutomapperDemo
         {
             Person p = new Person()
             {
-                FirstName = "John",
-                LastName = "Cena",
-                BirthDate = new DateTime(1990, 07, 04)
+                FirstName = "Tony",
+                LastName = "Stark",
+                BirthDate = new DateTime(1990, 01, 01)
             };
 
             Employee e = new Employee()
             {
-                FirstName = "Jane",
-                LastName = "Doe",
+                FirstName = "Jean",
+                LastName = "Grey",
                 Position = "Manager"
             };
 
