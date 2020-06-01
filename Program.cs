@@ -1,4 +1,5 @@
 ﻿using System;
+using Models;
 using AutoMapper;
 
 namespace AutomapperDemo
@@ -7,21 +8,21 @@ namespace AutomapperDemo
     {
         static void Main(string[] args)
         {
-            Models.Person p = new Models.Person()
+            Person p = new Person()
             {
                 FirstName = "John",
                 LastName = "Cena",
                 BirthDate = new DateTime(1990, 07, 04)
             };
 
-            Models.Employee e = new Models.Employee()
+            Employee e = new Employee()
             {
                 FirstName = "Jane",
                 LastName = "Doe",
                 Position = "Manager"
             };
 
-            Models.Student s = new Models.Student()
+            Student s = new Student()
             {
                 StudentId = 1,
                 FN = "Steve",
@@ -30,42 +31,42 @@ namespace AutomapperDemo
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Models.Person, Models.Employee>();
-                cfg.CreateMap<Models.Person, Models.Student>()
+                cfg.CreateMap<Person, Employee>();
+                cfg.CreateMap<Person, Student>()
                     .ForMember(dest => dest.FN, opt => opt.MapFrom(src => src.FirstName))
                     .ForMember(dest => dest.LN, opt => opt.MapFrom(src => src.LastName));
 
-                cfg.CreateMap<Models.Employee, Models.Person>();
-                cfg.CreateMap<Models.Employee, Models.Student>()
+                cfg.CreateMap<Employee, Person>();
+                cfg.CreateMap<Employee, Student>()
                     .ForMember(dest => dest.FN, opt => opt.MapFrom(src => src.FirstName))
                     .ForMember(dest => dest.LN, opt => opt.MapFrom(src => src.LastName));
 
-                cfg.CreateMap<Models.Student, Models.Person>();
-                cfg.CreateMap<Models.Student, Models.Employee>()
+                cfg.CreateMap<Student, Person>();
+                cfg.CreateMap<Student, Employee>()
                     .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FN))
                     .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LN));
             });
 
             var mapper = config.CreateMapper();
 
-            Models.Employee employee = mapper.Map<Models.Employee>(p);
-            Models.Student student = mapper.Map<Models.Student>(p);
+            Employee employee = mapper.Map<Employee>(p);
+            Student student = mapper.Map<Student>(p);
 
             Console.WriteLine($"Person object -> {p.FirstName} {p.LastName} {p.BirthDate:d}");
 
             Console.WriteLine($"\t Mapping Person to Employee -> {employee.FirstName} {employee.LastName} {employee.Position}");
             Console.WriteLine($"\t Mapping Person to Student -> {student.FN} {student.LN}");
 
-            Models.Person person = mapper.Map<Models.Person>(e);
-            student = mapper.Map<Models.Student>(e);
+            Person person = mapper.Map<Person>(e);
+            student = mapper.Map<Student>(e);
 
             Console.WriteLine($"Employee object -> {e.FirstName} {e.LastName} {e.Position}");
 
             Console.WriteLine($"\t Mapping Employee to Person -> {person.FirstName} {person.LastName} {person.BirthDate:d}");
             Console.WriteLine($"\t Mapping Employee to Student -> {student.FN} {student.LN} {student.StudentId}");
 
-            person = mapper.Map<Models.Person>(s);
-            employee = mapper.Map<Models.Employee>(s);
+            person = mapper.Map<Person>(s);
+            employee = mapper.Map<Employee>(s);
 
             Console.WriteLine($"Student object -> {s.FN} {s.LN} {s.StudentId}");
 
